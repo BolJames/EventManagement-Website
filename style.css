@@ -1,0 +1,139 @@
+/* General Page Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: #f4f6f9;
+  color: #333;
+}
+
+/* Page Heading */
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Section Headings */
+h2 {
+  margin-top: 30px;
+  color: #34495e;
+}
+
+/* Event Creation Form */
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+form input,
+form textarea,
+form button {
+  width: 95%;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #2980b9;
+}
+
+/* Button Styling */
+form button {
+  background: #2980b9;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background: #1f6391;
+}
+
+/* Events List */
+#eventsList {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 0;
+  list-style: none;
+}
+
+#eventsList li {
+  background: #fff;
+  margin: 10px 0;
+  padding: 15px;
+  border-left: 5px solid #2980b9;
+  border-radius: 6px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+  font-size: 16px;
+}
+
+/* ====================== */
+/* 📱 RESPONSIVE DESIGN  */
+/* ====================== */
+
+/* Small Phones */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  form input,
+  form textarea,
+  form button {
+    font-size: 14px;
+    padding: 10px;
+    width: 100%; /* Full width on mobile */
+  }
+
+  #eventsList li {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
+/* Tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  h1 {
+    font-size: 26px;
+  }
+
+  form {
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  #eventsList {
+    max-width: 90%;
+  }
+}
+
+/* Large screens / Desktops */
+@media (min-width: 769px) {
+  form {
+    max-width: 500px;
+  }
+
+  #eventsList {
+    max-width: 600px;
+  }
+}

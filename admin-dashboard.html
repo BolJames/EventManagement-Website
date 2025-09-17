@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width =device-width, initital-scae =1.0">
+<link rel="stylesheet" href="./style.css">
+<title>Admin Dashboard - EventPro</title>
+</head>
+<body>
+  <h1>Admin Event Management</h1>
+
+  <form id="createEventForm">
+    <input type="text" name="title" placeholder="Event Title" required>
+    <input type="date" name="date" required>
+    <textarea name="description" placeholder="Event Description" required></textarea>
+    <button type="submit">Create Event</button>
+  </form>
+
+  <h2>All Events</h2>
+  <ul id="eventsList"></ul>
+
+  <script>
+    const token = localStorage.getItem("token");
+
+    // Handle event creation
+    document.getElementById("createEventForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(e.target));
+
+      const res = await fetch("http://localhost:5000/api/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await res.json();
+      alert(result.message);
+      loadEvents();
+    });
+
+    // Load events
+    async function loadEvents() {
+      const res = await fetch("http://localhost:5000/api/events");
+      const events = await res.json();
+
+      const list = document.getElementById("eventsList");
+      list.innerHTML = "";
+      events.forEach(e => {
+        const li = document.createElement("li");
+        li.textContent = `${e.title} - ${e.date}`;
+        list.appendChild(li);
+      });
+    }
+
+    loadEvents();
+  </script>
+</body>
+</html> 

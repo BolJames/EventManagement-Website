@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard - EventPro</title>
+</head>
+<body>
+  <h1>Available Events</h1>
+  <ul id="eventsList"></ul>
+
+  <script>
+    const token = localStorage.getItem("token");
+
+    async function loadEvents() {
+      const res = await fetch("http://localhost:5000/api/events");
+      const events = await res.json();
+
+      const list = document.getElementById("eventsList");
+      list.innerHTML = "";
+      events.forEach(e => {
+        const li = document.createElement("li");
+        li.textContent = `${e.title} - ${e.date} `;
+
+        const btn = document.createElement("button");
+        btn.textContent = "Book Event";
+        btn.onclick = () => {
+          // ✅ Redirect to booking.html with event ID in query string
+          window.location.href = `booking.html?id=${e.id}`;
+        };
+
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+    }
+
+    loadEvents();
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Event - EventPro</title>
+
+  <style>
+/* General page styling */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f7fb;
+  color: #333;
+}
+
+/* Main title */
+h1 {
+  text-align: center;
+  margin-top: 20px;
+  color: #2c3e50;
+  margin-left: 40px;
+}
+
+/* Event details box */
+#eventDetails {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#eventDetails h2 {
+  margin: 0 0 10px;
+  color: #34495e;
+}
+
+#eventDetails p {
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+/* Form container */
+form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Section headings */
+h2 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+  margin-left: 40%;
+  color: green;
+}
+
+/* Labels & Inputs */
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+  accent-color: #3498db;
+}
+
+/* Submit button */
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #2980b9;
+}
+
+
+
+  </style>
+</head>
+<body>
+  <h1>Book Event</h1>
+
+  <div id="eventDetails"></div>
+
+  <h2>Choose a Plan</h2>
+  <form id="bookingForm">
+    <label>
+      <input type="radio" name="plan" value="basic" required>
+      Basic - $20
+    </label><br>
+    <label>
+      <input type="radio" name="plan" value="premium">
+      Premium - $50
+    </label><br>
+
+    <h2>Payment Method</h2>
+    <label>
+      <input type="radio" name="payment" value="card" required>
+      Credit/Debit Card
+    </label><br>
+    <label>
+      <input type="radio" name="payment" value="paypal">
+      PayPal
+    </label><br>
+    <label>
+      <input type="radio" name="payment" value="cash">
+      Pay at Venue
+    </label><br><br>
+
+    <button type="submit">Confirm Booking</button>
+  </form>
+
+  <script>
+    // Get event ID from URL query string
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get("id");
+    const token = localStorage.getItem("token");
+
+    // Load event details
+    async function loadEvent() {
+      const res = await fetch(`http://localhost:5000/api/events/${eventId}`);
+      const event = await res.json();
+
+      document.getElementById("eventDetails").innerHTML = `
+        <h2>${event.title}</h2>
+        <p><strong>Date:</strong> ${event.date}</p>
+        <p>${event.description}</p>
+      `;
+    }
+
+    loadEvent();
+
+    // Handle booking form submit
+    document.getElementById("bookingForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(e.target));
+
+      const res = await fetch(`http://localhost:5000/api/events/${eventId}/book`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await res.json();
+      alert(result.message || "Booking confirmed!");
+      window.location.href = "user-dashboard.html"; // redirect back
+    });
+  </script>
+</body>
+</html>
