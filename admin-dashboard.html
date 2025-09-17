@@ -43,7 +43,7 @@
 
     // Load events
     async function loadEvents() {
-      const res = await fetch("http://localhost:5000/api/events");
+      const res = await fetch("http://eventmanagement-backend.onrender.com/api/events");
       const events = await res.json();
 
       const list = document.getElementById("eventsList");
@@ -58,4 +58,5 @@
     loadEvents();
   </script>
 </body>
+
 </html> 
